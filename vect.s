@@ -1,2 +1,4 @@
 .text
-    ret
+
+.org 0x0
+    jmp start
