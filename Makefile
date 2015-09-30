@@ -9,18 +9,24 @@ SRC := vect.s prog.s
 OBJ := $(SRC:%.s=%.o)
 
 
-PROG = prog.ihex
+PROG := prog
+all: $(PROG).bin $(PROG).raw
+
+LDFLAGS := -A atmega128 -m avr51 -T link.ld -s
 
 
 $(OBJ): $$(patsubst %.o,%.s,$$@)
-	avr-as -mmcu=atmega128 -o $@ $<
+	avr-as -mmcu=avr51 -o $@ $<
 
-$(PROG): $(OBJ)
-	avr-ld -mavr51 -T link.ld -o $@ $^
+$(PROG).bin: $(OBJ)
+	avr-ld $(LDFLAGS) -o $@ $^
+
+$(PROG).raw: $(PROG).bin
+	avr-objcopy -O binary $< $@
 
 clean:
-	rm -f $(OBJ) $(PROG)
+	rm -f $(OBJ) $(PROG).ihex $(PROG).bin
 
 
-.DEFAULT_GOAL := $(PROG)
+.DEFAULT_GOAL := $(PROG).raw
 .PHONY: all clean
