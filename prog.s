@@ -2,13 +2,17 @@
 
 .text
 
-start:		ldi r16, 0xFF ; all output / loop index / flip all bits
-			out 0x17, r16 ; DDRB
-			ldi r17, 0x55 ; 0n01010101
+start:		ldi r24, 0xFF ; all output / loop index / flip all bits
+			out 0x17, r24 ; DDRB
+			ldi r16, 0x55 ; 0n01010101
 
-flip:		eor r17, r16
-			out 0x18, r17 ; PORTB
-loop2:		dec r16
-			brne loop2
-			ldi r16, 0xFF ; loop index
+flip:		eor r16, r24
+			out 0x18, r16 ; PORTB
+            ldi r17, 0x10
+delay:		sbiw r24, 1
+			brne delay
+			ldi r24, 0xFF
+            ldi r25, 0xFF
+            dec r17
+            brne delay
 			jmp flip
