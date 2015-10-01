@@ -10,11 +10,11 @@ start:		ldi r24, 0xFF ; all output / loop index / flip all bits
 
 flip:		eor r16, r24
 			out PORTB - 0x20, r16 ; PORTB
-            ldi r17, 0x10
+			ldi r17, 0x10
 delay:		sbiw r24, 1
 			brne delay
 			ldi r24, 0xFF
-            ldi r25, 0xFF
-            dec r17
-            brne delay
+			ldi r25, 0xFF
+			dec r17
+			brne delay
 			jmp flip
