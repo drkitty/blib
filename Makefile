@@ -4,28 +4,35 @@ MAKEFLAGS += --no-builtin-rules
 .SECONDEXPANSION:
 
 
-SRC := vect.s prog.s
+SSRC := vect.s prog.s
+CSRC :=
 
-OBJ := $(SRC:%.s=%.o)
+SOBJ := $(SSRC:%.s=%.o)
+COBJ := $(CSRC:%.c=%.o)
 
 
 PROG := prog
 all: $(PROG).elf $(PROG).raw
 
+GCCFLAGS := -mmcu=atmega128
+CFLAGS := -std=c99 -Wall -Wextra -Werror -Wno-unused-function
 LDFLAGS := -A atmega128 -m avr51 -T link.ld -s
 
 
-$(OBJ): $$(patsubst %.o,%.s,$$@)
-	avr-gcc -mmcu=atmega128 -x assembler-with-cpp -c -o $@ $<
+$(SOBJ): $$(patsubst %.o,%.s,$$@)
+	avr-gcc $(GCCFLAGS) -x assembler-with-cpp -c -o $@ $<
 
-$(PROG).elf: $(OBJ)
+$(COBJ): $$(patsubst %.o,%.c,$$@)
+	avr-gcc $(GCCFLAGS) $(CFLAGS) -c -o $@ $<
+
+$(PROG).elf: $(SOBJ) $(COBJ)
 	avr-ld $(LDFLAGS) -o $@ $^
 
 $(PROG).raw: $(PROG).elf
 	avr-objcopy -O binary $< $@
 
 clean:
-	rm -f $(OBJ) $(PROG).elf $(PROG).raw
+	rm -f $(SOBJ) $(COBJ) $(PROG).elf $(PROG).raw
 
 
 .DEFAULT_GOAL := $(PROG).raw

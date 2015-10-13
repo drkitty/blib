@@ -1,3 +1,5 @@
+#include <avr/io.h>
+
 .text
 
 .org 0x0

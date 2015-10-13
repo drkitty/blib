@@ -1,10 +1,10 @@
 #include "avr/io.h"
 
-.global start
+.global _start
 
 .text
 
-start:		ldi r24, 0xFF ; all output / loop index / flip all bits
+_start:		ldi r24, 0xFF ; all output / loop index / flip all bits
 			out DDRB - 0x20, r24 ; DDRB
 			ldi r16, 0x55 ; 0n01010101
 
