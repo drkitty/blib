@@ -1,1 +1,1 @@
-sudo avrdude -p m128 -c usbasp -U flash:w:prog.raw:r
+sudo avrdude -p m128 -c usbasp -U flash:w:"$1":r

@@ -4,7 +4,7 @@ MEMORY {
 }
 
 SECTIONS {
-    .text : { vect.o(.text) *(.text) } >flash
+    .text : { *(.text) } >flash
     .data : { *(.data) } >intsram
 	/DISCARD/ : { *(*) }
 }

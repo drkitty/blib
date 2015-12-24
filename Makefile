@@ -4,7 +4,7 @@ MAKEFLAGS += --no-builtin-rules
 .SECONDEXPANSION:
 
 
-SSRC := vect.s prog.s
+SSRC := prog.s
 CSRC :=
 
 SOBJ := $(SSRC:%.s=%.o)
@@ -12,7 +12,10 @@ COBJ := $(CSRC:%.c=%.o)
 
 
 PROG := prog
-all: $(PROG).elf $(PROG).raw
+ELF := $(PROG:%=%.elf)
+RAW := $(PROG:%=%.raw)
+
+all: $(ELF) $(RAW)
 
 GCCFLAGS := -mmcu=atmega128
 CFLAGS := -std=c99 -Wall -Wextra -Werror -Wno-unused-function
@@ -25,15 +28,18 @@ $(SOBJ): $$(patsubst %.o,%.s,$$@)
 $(COBJ): $$(patsubst %.o,%.c,$$@)
 	avr-gcc $(GCCFLAGS) $(CFLAGS) -c -o $@ $<
 
-$(PROG).elf: $(SOBJ) $(COBJ)
+$(ELF):
 	avr-ld $(LDFLAGS) -o $@ $^
 
-$(PROG).raw: $(PROG).elf
+prog.raw: $$(patsubst %.raw,%.elf,$$@)
 	avr-objcopy -O binary $< $@
 
 clean:
-	rm -f $(SOBJ) $(COBJ) $(PROG).elf $(PROG).raw
+	rm -f $(SOBJ) $(COBJ) $(ELF) $(RAW)
 
 
-.DEFAULT_GOAL := $(PROG).raw
+prog.elf: prog.o
+
+
+.DEFAULT_GOAL := all
 .PHONY: all clean
