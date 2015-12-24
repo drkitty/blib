@@ -4,8 +4,10 @@ MAKEFLAGS += --no-builtin-rules
 .SECONDEXPANSION:
 
 
+#### Add source files here. ####
 SSRC := prog.s
 CSRC :=
+#### ^^^^^^^^^^^^^^^^^^^^^^ ####
 
 SOBJ := $(SSRC:%.s=%.o)
 COBJ := $(CSRC:%.c=%.o)
@@ -38,7 +40,9 @@ clean:
 	rm -f $(SOBJ) $(COBJ) $(ELF) $(RAW)
 
 
+#### Add additional dependencies here. ####
 prog.elf: prog.o
+#### ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ####
 
 
 .DEFAULT_GOAL := all
