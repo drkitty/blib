@@ -7,7 +7,7 @@
 # flash.sh script.
 #
 # Unless you know what you're doing, you should only modify the marked sections
-# of this makefile. All dependencies are automatically generated excpept those
+# of this makefile. All dependencies are automatically generated except those
 # between ELF binaries and object files.
 
 
