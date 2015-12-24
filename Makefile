@@ -1,3 +1,16 @@
+# Build process:
+#   - Compile/assemble each source file into an object file.
+#   - Link all object files into a single ELF binary.
+#   - Convert the ELF binary to a raw binary.
+#
+# Once the raw binary is built, program the target device by running the
+# flash.sh script.
+#
+# Unless you know what you're doing, you should only modify the marked sections
+# of this makefile. All dependencies are automatically generated excpept those
+# between ELF binaries and object files.
+
+
 MAKEFLAGS += --no-builtin-rules
 
 .SUFFIXES:
