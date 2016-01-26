@@ -6,5 +6,5 @@ MEMORY {
 SECTIONS {
     .text : { *(.text) } >flash
     .data : { *(.data) } >intsram
-	/DISCARD/ : { *(*) }
+    /DISCARD/ : { *(*) }
 }
